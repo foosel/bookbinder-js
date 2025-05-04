@@ -94,10 +94,13 @@ export function calculateLayout(book) {
  * }
  */
 export function calculateDimensions(book) {
-  const { cropbox, padding_pt, papersize, page_layout, page_positioning, page_scaling } = book;
+  const { cropbox, padding_pt, papersize, page_layout, page_positioning, page_scaling, creep_correction_pt } = book;
+  const { sigsize } = book.book;
+
+  const maxCreepCorrection = Math.max(creep_correction_pt * (sigsize - 1), 0);
 
   const { width, height } = cropbox;
-  const pageX = width + Math.max(padding_pt.binding, 0) + Math.max(padding_pt.fore_edge, 0);
+  const pageX = width + Math.max(padding_pt.binding, 0) + Math.max(padding_pt.fore_edge, 0) + maxCreepCorrection;
   const pageY = height + Math.max(padding_pt.top, 0) + Math.max(padding_pt.bottom, 0);
 
   // Calculate the size of each page box on the sheet
@@ -137,7 +140,7 @@ export function calculateDimensions(book) {
   const xForeEdgeShiftFunc = function () {
     // amount to inset by, relative to fore edge, on left side of book
     const xgap = finalX - pageX * sx;
-    return padding.fore_edge + (positioning == 'centered' ? xgap / 2 : xgap);
+    return padding.fore_edge + maxCreepCorrection + (positioning == 'centered' ? xgap / 2 : xgap);
   };
   const xBindingShiftFunc = function () {
     // amount to inset by, relative to binding, on right side of book

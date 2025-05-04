@@ -128,6 +128,8 @@ export class Book {
       binding: configuration.bindingEdgePaddingPt,
       fore_edge: configuration.mainForeEdgePaddingPt,
     };
+
+    this.creep_correction_pt = configuration.creepCorrectionPt;
   }
 
   /**
@@ -499,7 +501,7 @@ export class Book {
    * @param {PageInfo[]} config.pageList : see documentation at top of file
    * @param {boolean} config.back : is 'back' of page  (boolean)
    * @param {boolean} config.alt : alternate pages (boolean)
-   * @param {number} config.maxSigCount
+   * @param {number} config.maxSigCount: Total number of signatures
    * @return reference to the new PDF created
    */
   async writepages(config) {
@@ -530,6 +532,7 @@ export class Book {
 
     let side2flag = back;
 
+    let sheet = 0;
     while (block_end <= pagelist.length) {
       const sigDetails = pagelist.slice(block_start, block_end);
       side2flag = this.draw_block_onto_page({
@@ -548,9 +551,11 @@ export class Book {
         side2flag: side2flag,
         maxSigCount: maxSigCount,
         sewingMarks: this.sewingMarks,
+        creepCorrection: this.creep_correction_pt ? this.creep_correction_pt * sheet : 0,
       });
       block_start += offset;
       block_end += offset;
+      sheet++;
     }
 
     return outPDF;
@@ -590,6 +595,7 @@ export class Book {
     const maxSigCount = config.maxSigCount;
     let side2flag = config.side2flag;
     const sewingMarks = config.sewingMarks;
+    const creepCorrection = config.creepCorrection;
 
     const block = config.embeddedPages.slice(block_start, block_end);
     const currPage = outPDF.addPage(papersize);
@@ -607,8 +613,8 @@ export class Book {
       } else if (page instanceof PDFEmbeddedPage) {
         const { y, x, sx, sy, rotation } = positions[i];
         currPage.drawPage(page, {
-          y,
-          x,
+          y: y + (i % 2 === 0 ? -1 * creepCorrection : creepCorrection),
+          x: x,
           xScale: sx,
           yScale: sy,
           rotate: degrees(rotation),

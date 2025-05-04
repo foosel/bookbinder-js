@@ -37,6 +37,7 @@ const fromFormToConfiguration = (form) =>
     bindingEdgePaddingPt: form.get('binding_edge_padding_pt'),
     topEdgePaddingPt: form.get('top_edge_padding_pt'),
     bottomEdgePaddingPt: form.get('bottom_edge_padding_pt'),
+    creepCorrectionPt: form.get('creep_correction_pt'),
     sigFormat: form.get('sig_format'),
     sigLength: form.get('sig_length'),
     customSigLength: form.get('custom_sig'),
