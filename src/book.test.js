@@ -44,6 +44,7 @@ describe('Book model', () => {
       fore_edge: 0,
       top: 0,
     },
+    creep_correction_pt: 0,
     sewingMarks: {
       sewingMarkLocation: 'all',
       amount: 3,

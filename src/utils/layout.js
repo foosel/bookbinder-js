@@ -94,14 +94,26 @@ export function calculateLayout(book) {
  * }
  */
 export function calculateDimensions(book) {
-  const { cropbox, padding_pt, papersize, page_layout, page_positioning, page_scaling, creep_correction_pt } = book;
+  const {
+    cropbox,
+    padding_pt,
+    papersize,
+    page_layout,
+    page_positioning,
+    page_scaling,
+    creep_correction_pt,
+  } = book;
   const { sigsize } = book.book;
 
   const maxCreepCorrection = Math.max(creep_correction_pt * (sigsize - 1), 0);
   console.log(`Max creep correction is ${maxCreepCorrection}pt`);
 
   const { width, height } = cropbox;
-  const pageX = width + Math.max(padding_pt.binding, 0) + Math.max(padding_pt.fore_edge, 0) + maxCreepCorrection;
+  const pageX =
+    width +
+    Math.max(padding_pt.binding, 0) +
+    Math.max(padding_pt.fore_edge, 0) +
+    maxCreepCorrection;
   const pageY = height + Math.max(padding_pt.top, 0) + Math.max(padding_pt.bottom, 0);
 
   // Calculate the size of each page box on the sheet

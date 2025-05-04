@@ -20,6 +20,7 @@ export const testCases = {
       bindingEdgePaddingPt: 0,
       topEdgePaddingPt: 0,
       bottomEdgePaddingPt: 0,
+      creepCorrectionPt: 0,
       sigFormat: 'standardsig',
       sigLength: 4,
       customSigLength: [0],
