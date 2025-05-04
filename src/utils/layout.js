@@ -98,6 +98,7 @@ export function calculateDimensions(book) {
   const { sigsize } = book.book;
 
   const maxCreepCorrection = Math.max(creep_correction_pt * (sigsize - 1), 0);
+  console.log(`Max creep correction is ${maxCreepCorrection}pt`);
 
   const { width, height } = cropbox;
   const pageX = width + Math.max(padding_pt.binding, 0) + Math.max(padding_pt.fore_edge, 0) + maxCreepCorrection;
